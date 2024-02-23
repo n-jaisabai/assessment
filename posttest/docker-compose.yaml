@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  posttest-network:
+
+volumes:
+  posttest-db-data:
+
+services:
+  posttest-db:
+    image: postgres:latest
+    container_name: posttest-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres@password
+      POSTGRES_DB: posttest
+    restart: on-failure
+    volumes:
+      - posttest-db-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - posttest-network
