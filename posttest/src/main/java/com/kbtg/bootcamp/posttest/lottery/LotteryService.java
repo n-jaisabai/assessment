@@ -56,10 +56,22 @@ public class LotteryService {
     }
 
     public LotteryListUserResponse getLotteryListByUser(Integer userId) throws Exception {
-        List<UserTicket> result = userTicketRepository.findByUserId(userId);
+        List<UserTicket> result = userTicketRepository.findByUserId(userId).orElse(List.of());
         return new LotteryListUserResponse(
                 result.stream().map(UserTicket::getTicketNo).toList(),
                 result.size(),
                 result.stream().map(UserTicket::getPricePaid).reduce(BigDecimal.ZERO, BigDecimal::add));
+    }
+
+    @Transactional
+    public String refundLottery(Integer userId, String ticketNo) throws Exception {
+        Lottery lottery = lotteryRepository.findById(ticketNo).orElseThrow(() -> new NotFoundException("ticket not found"));
+
+        UserTicket userTicket = userTicketRepository.findByUserIdAndTicketNo(userId, ticketNo).orElseThrow(() -> new NotFoundException("transaction not found"));
+
+        userTicketRepository.delete(userTicket);
+        lotteryRepository.updateAmount(ticketNo, lottery.getAmount() + 1);
+
+        return userTicket.getTicketNo();
     }
 }
