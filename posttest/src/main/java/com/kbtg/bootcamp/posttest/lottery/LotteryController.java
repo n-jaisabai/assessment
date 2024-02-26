@@ -21,7 +21,6 @@ public class LotteryController {
     }
 
     @GetMapping("/lotteries")
-    // user can get the list of lottery tickets
     public ResponseEntity<LotteryListResponse> getLotteryList() throws Exception {
         List<Lottery> lotteryResult = lotteryService.getLotteryList();
         return ResponseEntity.status(200).body(new LotteryListResponse(
@@ -29,9 +28,13 @@ public class LotteryController {
     }
 
     @PostMapping("/user/{userId}/lotteries/{ticketNo}")
-    // user can buy lottery ticket
-    public ResponseEntity<BuyLotteryResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
+    public ResponseEntity<LotteryBuyResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
         Integer purchaseId = lotteryService.buyLottery(userId, ticketNo);
-        return ResponseEntity.status(200).body(new BuyLotteryResponse(purchaseId));
+        return ResponseEntity.status(200).body(new LotteryBuyResponse(purchaseId));
+    }
+
+    @GetMapping("/user/{userId}/lotteries")
+    public ResponseEntity<LotteryListUserResponse> getLotteryListByUser(@PathVariable Integer userId) throws Exception {
+        return ResponseEntity.status(200).body(lotteryService.getLotteryListByUser(userId));
     }
 }
