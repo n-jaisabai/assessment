@@ -2,10 +2,7 @@ package com.kbtg.bootcamp.posttest.lottery;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,12 @@ public class LotteryController {
         List<Lottery> lotteryResult = lotteryService.getLotteryList();
         return ResponseEntity.status(200).body(new LotteryListResponse(
                 lotteryResult.stream().map(Lottery::getTicketNo).toList()));
+    }
+
+    @PostMapping("/user/{userId}/lotteries/{ticketNo}")
+    // user can buy lottery ticket
+    public ResponseEntity<BuyLotteryResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
+        Integer purchaseId = lotteryService.buyLottery(userId, ticketNo);
+        return ResponseEntity.status(200).body(new BuyLotteryResponse(purchaseId));
     }
 }

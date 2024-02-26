@@ -1,16 +1,21 @@
 package com.kbtg.bootcamp.posttest.lottery;
 
+import com.kbtg.bootcamp.posttest.exception.NotFoundException;
+import com.kbtg.bootcamp.posttest.user_ticket.UserTicket;
+import com.kbtg.bootcamp.posttest.user_ticket.UserTicketRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LotteryService {
     private final LotteryRepository lotteryRepository;
+    private final UserTicketRepository userTicketRepository;
 
-    public LotteryService(LotteryRepository lotteryRepository) {
+    public LotteryService(LotteryRepository lotteryRepository, UserTicketRepository userTicketRepository) {
         this.lotteryRepository = lotteryRepository;
+        this.userTicketRepository = userTicketRepository;
     }
 
     public List<Lottery> getLotteryList() {
@@ -28,5 +33,24 @@ public class LotteryService {
         });
 
         return lotteryRepository.save(lottery);
+    }
+
+    @Transactional
+    public Integer buyLottery(Integer userId, String ticketNo) throws Exception {
+        Lottery lottery = lotteryRepository.findById(ticketNo).orElseThrow(() -> new NotFoundException("ticket not found"));
+
+        if (lottery.getAmount() <= 0) {
+            throw new IllegalArgumentException("ticket is sold out");
+        }
+
+        UserTicket userTicket = new UserTicket();
+        userTicket.setUserId(userId);
+        userTicket.setTicketNo(ticketNo);
+        userTicket.setPricePaid(lottery.getPrice());
+        userTicketRepository.save(userTicket);
+
+        lotteryRepository.updateAmount(ticketNo, lottery.getAmount() - 1);
+
+        return userTicket.getId();
     }
 }
