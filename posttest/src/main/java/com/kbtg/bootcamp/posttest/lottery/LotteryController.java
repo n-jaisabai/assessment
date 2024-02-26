@@ -37,4 +37,10 @@ public class LotteryController {
     public ResponseEntity<LotteryListUserResponse> getLotteryListByUser(@PathVariable Integer userId) throws Exception {
         return ResponseEntity.status(200).body(lotteryService.getLotteryListByUser(userId));
     }
+
+    @DeleteMapping("/user/{userId}/lotteries/{ticketNo}")
+    public ResponseEntity<LotteryRefundResponse> refundLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
+        String refundResult = lotteryService.refundLottery(userId, ticketNo);
+        return ResponseEntity.status(200).body(new LotteryRefundResponse(refundResult));
+    }
 }
