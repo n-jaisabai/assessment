@@ -1,6 +1,8 @@
 package com.kbtg.bootcamp.posttest.lottery;
 
 import com.kbtg.bootcamp.posttest.exception.NotFoundException;
+import com.kbtg.bootcamp.posttest.lottery.request.LotteryRequest;
+import com.kbtg.bootcamp.posttest.lottery.response.LotteryListUserResponse;
 import com.kbtg.bootcamp.posttest.user_ticket.UserTicket;
 import com.kbtg.bootcamp.posttest.user_ticket.UserTicketRepository;
 import jakarta.transaction.Transactional;

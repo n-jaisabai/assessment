@@ -1,5 +1,7 @@
 package com.kbtg.bootcamp.posttest.lottery;
 
+import com.kbtg.bootcamp.posttest.lottery.request.LotteryRequest;
+import com.kbtg.bootcamp.posttest.lottery.response.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
