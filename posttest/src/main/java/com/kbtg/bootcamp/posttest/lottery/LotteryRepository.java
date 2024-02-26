@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LotteryRepository extends JpaRepository<Lottery, String>{
+public interface LotteryRepository extends JpaRepository<Lottery, String> {
 
     @Transactional
     @Modifying

@@ -23,7 +23,7 @@ public class ControllerExceptionHandler {
                 .toList();
 
         return new ApiErrorResponse(
-              LocalDateTime.now(),
+                LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 String.join(", ", error),
