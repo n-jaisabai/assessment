@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record LotteryListResponse(@JsonProperty(value = "ticket") List<String> tickets) {
+public record LotteryListResponse(List<String> tickets) {
 }
