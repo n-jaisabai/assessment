@@ -15,7 +15,7 @@ public class LotteryController {
     }
 
     @PostMapping("/admin/lotteries")
-    public ResponseEntity<LotteryResponse> addLottery(@Valid @RequestBody LotteryRequest lottery) throws Exception {
+    public ResponseEntity<LotteryResponse> addLottery(@Valid @RequestBody LotteryRequest lottery) {
         Lottery lotteryResult = lotteryService.addLottery(lottery);
         return ResponseEntity.status(201).body(new LotteryResponse(lotteryResult.getTicketNo()));
     }
@@ -28,18 +28,18 @@ public class LotteryController {
     }
 
     @PostMapping("/user/{userId}/lotteries/{ticketNo}")
-    public ResponseEntity<LotteryBuyResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
+    public ResponseEntity<LotteryBuyResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) {
         Integer purchaseId = lotteryService.buyLottery(userId, ticketNo);
         return ResponseEntity.status(200).body(new LotteryBuyResponse(purchaseId));
     }
 
     @GetMapping("/user/{userId}/lotteries")
-    public ResponseEntity<LotteryListUserResponse> getLotteryListByUser(@PathVariable Integer userId) throws Exception {
+    public ResponseEntity<LotteryListUserResponse> getLotteryListByUser(@PathVariable Integer userId) {
         return ResponseEntity.status(200).body(lotteryService.getLotteryListByUser(userId));
     }
 
     @DeleteMapping("/user/{userId}/lotteries/{ticketNo}")
-    public ResponseEntity<LotteryRefundResponse> refundLottery(@PathVariable Integer userId, @PathVariable String ticketNo) throws Exception {
+    public ResponseEntity<LotteryRefundResponse> refundLottery(@PathVariable Integer userId, @PathVariable String ticketNo) {
         String refundResult = lotteryService.refundLottery(userId, ticketNo);
         return ResponseEntity.status(200).body(new LotteryRefundResponse(refundResult));
     }

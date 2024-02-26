@@ -55,7 +55,7 @@ public class LotteryService {
         return userTicket.getId();
     }
 
-    public LotteryListUserResponse getLotteryListByUser(Integer userId) throws Exception {
+    public LotteryListUserResponse getLotteryListByUser(Integer userId) {
         List<UserTicket> result = userTicketRepository.findByUserId(userId).orElse(List.of());
         return new LotteryListUserResponse(
                 result.stream().map(UserTicket::getTicketNo).toList(),
@@ -64,7 +64,7 @@ public class LotteryService {
     }
 
     @Transactional
-    public String refundLottery(Integer userId, String ticketNo) throws Exception {
+    public String refundLottery(Integer userId, String ticketNo) {
         Lottery lottery = lotteryRepository.findById(ticketNo).orElseThrow(() -> new NotFoundException("ticket not found"));
 
         UserTicket userTicket = userTicketRepository.findByUserIdAndTicketNo(userId, ticketNo).orElseThrow(() -> new NotFoundException("transaction not found"));
