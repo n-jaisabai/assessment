@@ -29,18 +29,18 @@ public class LotteryController {
                 lotteryResult.stream().map(Lottery::getTicketNo).toList()));
     }
 
-    @PostMapping("/user/{userId}/lotteries/{ticketNo}")
+    @PostMapping("/users/{userId}/lotteries/{ticketNo}")
     public ResponseEntity<LotteryBuyResponse> buyLottery(@PathVariable Integer userId, @PathVariable String ticketNo) {
         Integer purchaseId = lotteryService.buyLottery(userId, ticketNo);
         return ResponseEntity.status(200).body(new LotteryBuyResponse(purchaseId));
     }
 
-    @GetMapping("/user/{userId}/lotteries")
+    @GetMapping("/users/{userId}/lotteries")
     public ResponseEntity<LotteryListUserResponse> getLotteryListByUser(@PathVariable Integer userId) {
         return ResponseEntity.status(200).body(lotteryService.getLotteryListByUser(userId));
     }
 
-    @DeleteMapping("/user/{userId}/lotteries/{ticketNo}")
+    @DeleteMapping("/users/{userId}/lotteries/{ticketNo}")
     public ResponseEntity<LotteryRefundResponse> refundLottery(@PathVariable Integer userId, @PathVariable String ticketNo) {
         String refundResult = lotteryService.refundLottery(userId, ticketNo);
         return ResponseEntity.status(200).body(new LotteryRefundResponse(refundResult));
