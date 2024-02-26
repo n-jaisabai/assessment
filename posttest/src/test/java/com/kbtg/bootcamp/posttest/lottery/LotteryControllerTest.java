@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -57,9 +55,9 @@ class LotteryControllerTest {
 
         when(lotteryService.addLottery(any())).thenReturn(lottery);
         this.mockMvc.perform(
-                post("/admin/lotteries")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content("{\"ticket\": \"000001\", \"price\": 100, \"amount\": 10}"))
+                        post("/admin/lotteries")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .content("{\"ticket\": \"000001\", \"price\": 100, \"amount\": 10}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.ticket").value("000001"));
     }
