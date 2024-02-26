@@ -6,6 +6,7 @@ import com.kbtg.bootcamp.posttest.user_ticket.UserTicketRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -52,5 +53,13 @@ public class LotteryService {
         lotteryRepository.updateAmount(ticketNo, lottery.getAmount() - 1);
 
         return userTicket.getId();
+    }
+
+    public LotteryListUserResponse getLotteryListByUser(Integer userId) throws Exception {
+        List<UserTicket> result = userTicketRepository.findByUserId(userId);
+        return new LotteryListUserResponse(
+                result.stream().map(UserTicket::getTicketNo).toList(),
+                result.size(),
+                result.stream().map(UserTicket::getPricePaid).reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 }
