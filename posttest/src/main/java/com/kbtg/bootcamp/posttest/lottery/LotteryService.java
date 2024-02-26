@@ -23,7 +23,7 @@ public class LotteryService {
         return lotteryRepository.findAll();
     }
 
-    public Lottery addLottery(LotteryRequest lotteryRequest) throws Exception {
+    public Lottery addLottery(LotteryRequest lotteryRequest) {
         Lottery lottery = new Lottery();
         lottery.setTicketNo(lotteryRequest.getTicketNo());
         lottery.setPrice(lotteryRequest.getPrice());
@@ -37,7 +37,7 @@ public class LotteryService {
     }
 
     @Transactional
-    public Integer buyLottery(Integer userId, String ticketNo) throws Exception {
+    public Integer buyLottery(Integer userId, String ticketNo) {
         Lottery lottery = lotteryRepository.findById(ticketNo).orElseThrow(() -> new NotFoundException("ticket not found"));
 
         if (lottery.getAmount() <= 0) {

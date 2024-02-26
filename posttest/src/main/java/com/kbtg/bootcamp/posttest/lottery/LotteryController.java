@@ -21,7 +21,7 @@ public class LotteryController {
     }
 
     @GetMapping("/lotteries")
-    public ResponseEntity<LotteryListResponse> getLotteryList() throws Exception {
+    public ResponseEntity<LotteryListResponse> getLotteryList() {
         List<Lottery> lotteryResult = lotteryService.getLotteryList();
         return ResponseEntity.status(200).body(new LotteryListResponse(
                 lotteryResult.stream().map(Lottery::getTicketNo).toList()));
